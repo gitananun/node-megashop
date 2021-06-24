@@ -1,30 +1,16 @@
-const http = require("http");
-const fs = require("fs");
+const express = require("express");
 
-const server = http.createServer((req, res) => {
-  res.write("<h1>Hi Node</h1>");
+const adminRouter = require("./routes/admin");
+const shopRouter = require("./routes/shop");
 
-  if (req.url == "/") {
-    res.write(`<i>You are on the route: ${req.url}</i>`);
-    res.write(
-      "<form action='/message' method='POST'><input type='text' name='message'><button type='submit'>Send</button></form>"
-    );
-    return res.end();
-  }
-  if (req.url == "/message" && req.method == "POST") {
-    const body = [];
+const app = express();
+app.use(express.urlencoded({ extended: true }));
 
-    req.on("data", (chunk) => body.push(chunk));
+app.use(shopRouter);
+app.use(adminRouter);
 
-    req.on("end", () => {
-      const parsedBody = Buffer.concat(body).toString();
-      fs.writeFileSync("message.txt", parsedBody.split("=")[1]);
-    });
-
-    res.setHeader("Location", "/");
-    res.statusCode = 302;
-    return res.end();
-  }
+app.use((req, res, next) => {
+  res.status(404).send("<h1>Page not found</h1>");
 });
 
-server.listen(3000);
+app.listen(3000);
