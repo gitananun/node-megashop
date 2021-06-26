@@ -8,9 +8,9 @@ const products = require("../data/products");
 router.get("/", (_, res, __) => {
   console.log(products);
 
-  res.sendFile(path.join(rootDir, "views", "shop.html"), {
-    prods: products,
-    docTitle: "Shop",
+  res.render("shop", {
+    products,
+    pageTitle: "MegaShop",
     path: "/",
   });
 });

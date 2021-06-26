@@ -7,6 +7,7 @@ const systemRouter = require("./routes/system");
 
 const app = express();
 
+app.set("view engine", "ejs");
 app.set("views", "views"); // where to find templates
 
 app.use(express.urlencoded({ extended: true })); // Allow parsing the request body
