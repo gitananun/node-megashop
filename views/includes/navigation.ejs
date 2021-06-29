@@ -6,18 +6,31 @@
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                <li class="nav-item"><a class="nav-link <%= path == '/' ? 'active' : '' %>" aria-current="page"
-                        href="/">Store</a></li>
+                <!-- Links -->
+                <li class="nav-item">
+                    <a class="nav-link <%= path == '/' ? 'active' : '' %>" aria-current="page" href="/">
+                        Store
+                    </a>
+                </li>
                 <li class="nav-item"><a class="nav-link <%= path == '/admin/add-product' ? 'active' : '' %>"
-                        href="/admin/add-product">Add Product</a></li>
+                        href="/admin/add-product">
+                        Add Product
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link <%= path == '/admin/products' ? 'active' : '' %>"
+                        href="/admin/products">
+                        Admin Products
+                    </a>
+                </li>
+                <!-- End Links -->
             </ul>
-            <form class="d-flex">
-                <button class="btn btn-outline-dark" type="submit">
+            <a class="d-flex text-decoration-none" href="/cart">
+                <button class="btn btn-outline-dark <%= path == '/cart' ? 'btn-dark text-light' : '' %> " type="submit">
                     <i class="bi-cart-fill me-1"></i>
                     Cart
                     <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
                 </button>
-            </form>
+            </a>
         </div>
     </div>
 </nav>

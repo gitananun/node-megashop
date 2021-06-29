@@ -1,0 +1,40 @@
+<%- include('../layouts/start.ejs') %>
+
+
+    <!-- Section-->
+    <section class="py-5">
+        <div class="container">
+            <form action="/admin/product" method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Product Title</label>
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="title" required>
+                    <div id="title" class="form-text">Name of the product</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="imageUrl" class="form-label">Image URL</label>
+                    <input type="text" class="form-control" id="imageUrl" name="imageUrl" aria-describedby="imageUrl">
+                    <div id="imageUrl" class="form-text">Product image URL</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="price" class="form-label">Price</label>
+                    <input type="number" class="form-control" id="price" name="price" aria-describedby="price"
+                        step="0.01" required>
+                    <div id="price" class="form-text">Product price</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description"
+                        aria-describedby="description"></textarea>
+                    <div id="description" class="form-text">Product Description</div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Product</button>
+            </form>
+        </div>
+    </section>
+
+
+    <%- include('../layouts/end.ejs') %>
