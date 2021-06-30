@@ -25,8 +25,10 @@
 
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center"><a class="btn btn-outline-dark mt-auto"
-                                            href="/products/1">View
-                                            More</a>
+                                            href="/products/<%= product.id %>">
+                                            View
+                                        </a>
+                                        <%- include('../includes/shop/add-to-cart.ejs', {product: product}) %>
                                     </div>
                                 </div>
                             </div>

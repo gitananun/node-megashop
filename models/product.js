@@ -1,8 +1,9 @@
-const dirPath = require("../utils/path");
-
 const path = require("path");
 
 const fs = require("fs");
+
+const dirPath = require("../utils/path");
+const titleToSlug = require("../utils/slug");
 
 module.exports = class Product {
   constructor({ title, imageUrl, price, description }) {
@@ -13,6 +14,7 @@ module.exports = class Product {
   }
 
   save() {
+    this.id = titleToSlug(this.title);
     const p = path.join(dirPath, "data", "products.json");
 
     fs.readFile(p, (err, data) => {
@@ -36,11 +38,14 @@ module.exports = class Product {
     const p = path.join(dirPath, "data", "products.json");
 
     fs.readFile(p, (err, data) => {
-      if (err) {
-        cb([]);
-      }
-
+      if (err) cb([]);
       cb(JSON.parse(data));
+    });
+  }
+
+  static findById(id, cb) {
+    this.fetchAll((products) => {
+      cb(products.find((p) => p.id == id));
     });
   }
 };
