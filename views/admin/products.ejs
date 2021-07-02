@@ -25,10 +25,12 @@
 
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
-                                        <a class="btn btn-outline-success mt-auto" href="/products/1/edit">
+                                        <a class="btn btn-outline-success mt-auto"
+                                            href="products/<%= product.id %>/edit">
                                             Edit
                                         </a>
-                                        <form class='d-inline'>
+                                        <form class='d-inline' action="products/<%= product.id %>/delete" method="POST">
+                                            <input type="hidden" name="_method" value="DELETE">
                                             <button class="btn btn-outline-danger mt-auto" type="submit">Delete</button>
                                         </form>
                                     </div>
