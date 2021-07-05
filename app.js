@@ -5,6 +5,8 @@ const adminRouter = require("./routes/admin");
 const shopRouter = require("./routes/shop");
 const systemRouter = require("./routes/system");
 
+const sequelize = require("./utils/database");
+
 const app = express();
 
 app.set("view engine", "ejs");
@@ -17,4 +19,7 @@ app.use(shopRouter);
 app.use("/admin", adminRouter);
 app.use(systemRouter);
 
-app.listen(3000);
+sequelize
+  .sync()
+  .then(() => app.listen(3000))
+  .catch((e) => console.error(e));

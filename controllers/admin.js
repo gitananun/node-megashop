@@ -1,75 +1,73 @@
-const Product = require("../models/product");
+const Product = require('../models/product');
 
 exports.getAddProduct = (_, res, __) => {
-  res.render("admin/edit-product", {
-    path: "/admin/add-product",
-    pageTitle: "Add Product",
+  res.render('admin/edit-product', {
+    path: '/admin/add-product',
+    pageTitle: 'Add Product',
     editing: false,
   });
 };
 
 exports.postAddProduct = (req, res, _) => {
-  const product = new Product({
+  Product.create({
     title: req.body.title,
-    imageUrl: req.body.imageUrl,
     price: req.body.price,
+    imageUrl: req.body.imageUrl,
     description: req.body.description,
-  });
-
-  product
-    .save()
-    .then((_) => res.redirect(".."))
-    .catch((err) => console.log(err));
+  })
+    .then(() => res.redirect('..'))
+    .catch((e) => console.log(e));
 };
 
 exports.getProducts = (_, res, __) => {
-  Product.fetchAll()
-    .then(([rows, _]) => {
-      res.render("admin/products", {
-        products: rows,
-        pageTitle: "Admin Products",
-        path: "/admin/products",
+  Product.findAll()
+    .then((products) => {
+      res.render('admin/products', {
+        products,
+        pageTitle: 'Admin Products',
+        path: '/admin/products',
       });
     })
     .catch((err) => console.log(err));
 };
 
 exports.getEditProduct = (req, res, _) => {
-  const urlPaths = req.url.split("/");
-  const editMode = urlPaths[urlPaths.length - 1] === "edit";
+  const urlPaths = req.url.split('/');
+  const editMode = urlPaths[urlPaths.length - 1] === 'edit';
 
-  const product = Product.findById(req.params.productId, (product) => {
-    if (!product) {
-      res.status(404).redirect("/");
-    }
-
-    res.render("admin/edit-product", {
-      path: "/admin/productId/edit",
-      pageTitle: "Edit Product",
-      editing: editMode,
-      product: product,
-    });
-  });
+  Product.findByPk(req.params.productId)
+    .then((product) =>
+      res.render('admin/edit-product', {
+        path: '/admin/productId/edit',
+        pageTitle: 'Edit Product',
+        editing: editMode,
+        product,
+      })
+    )
+    .catch((e) => console.log(e));
 };
 
 exports.putEditProduct = (req, res, _) => {
   const prodId = req.params.productId;
 
-  const updatedProduct = new Product({
-    id: prodId,
-    title: req.body.title,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    description: req.body.description,
-  });
+  Product.findByPk(req.params.productId)
+    .then((product) => {
+      if (product) {
+        product.update({
+          title: req.body.title,
+          price: req.body.price,
+          imageUrl: req.body.imageUrl,
+          description: req.body.description,
+        });
 
-  updatedProduct.save();
-
-  res.redirect("/admin/products");
+        res.redirect('/admin/products');
+      }
+    })
+    .catch((e) => console.log(e));
 };
 
 exports.deleteProduct = (req, res, _) => {
   Product.deleteById(req.params.productId);
 
-  res.redirect("/admin/products");
+  res.redirect('/admin/products');
 };
