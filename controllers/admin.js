@@ -10,25 +10,28 @@ exports.getAddProduct = (_, res, __) => {
 
 exports.postAddProduct = (req, res, _) => {
   const product = new Product({
-    id: null,
     title: req.body.title,
     imageUrl: req.body.imageUrl,
     price: req.body.price,
     description: req.body.description,
   });
-  product.save();
 
-  res.redirect("/");
+  product
+    .save()
+    .then((_) => res.redirect(".."))
+    .catch((err) => console.log(err));
 };
 
 exports.getProducts = (_, res, __) => {
-  products = Product.fetchAll((products) =>
-    res.render("admin/products", {
-      products,
-      pageTitle: "Admin Products",
-      path: "/admin/products",
+  Product.fetchAll()
+    .then(([rows, _]) => {
+      res.render("admin/products", {
+        products: rows,
+        pageTitle: "Admin Products",
+        path: "/admin/products",
+      });
     })
-  );
+    .catch((err) => console.log(err));
 };
 
 exports.getEditProduct = (req, res, _) => {
