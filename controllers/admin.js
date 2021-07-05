@@ -48,8 +48,6 @@ exports.getEditProduct = (req, res, _) => {
 };
 
 exports.putEditProduct = (req, res, _) => {
-  const prodId = req.params.productId;
-
   Product.findByPk(req.params.productId)
     .then((product) => {
       if (product) {
