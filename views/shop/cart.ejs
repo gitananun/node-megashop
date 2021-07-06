@@ -1,7 +1,8 @@
 <%- include('../layouts/start.ejs') %>
 
     <section class="py-5">
-        <div class="container px-4 px-lg-5 mt-5">
+
+        <div class="container px-4 px-lg-5">
             <% if (products.length> 0) { %>
 
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -10,27 +11,27 @@
                             <div class="card h-100">
 
                                 <img class="card-img-top" style=" width: 100%; height: 15vw; object-fit: cover;"
-                                    src="<%= p.product.imageUrl ? p.product.imageUrl : 'https://www.dionid.com/app/uploads/2020/06/placeholder-1200x0-c-default.png' %>"
+                                    src="<%= p.imageUrl ? p.imageUrl : 'https://www.dionid.com/app/uploads/2020/06/placeholder-1200x0-c-default.png' %>"
                                     alt="..." />
 
                                 <div class="card-body p-4">
                                     <div class="text-center">
                                         <h6 class="fw-light">
-                                            Quantity: <%= p.qty %>
+                                            Quantity: <%= p.cartItem.quantity %>
                                         </h6>
                                         <h5 class="fw-bolder">
-                                            <%= p.product.title %>
+                                            <%= p.title %>
                                         </h5>
-                                        <%= p.product.price ? "$" + p.product.price : '' %>
+                                        <%= p.price ? "$" + p.price : '' %>
                                     </div>
                                 </div>
 
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="/products/<%= p.product.id %>">
+                                        <a class="btn btn-outline-dark mt-auto" href="/products/<%= p.id %>">
                                             View
                                         </a>
-                                        <form action="cart/<%= p.product.id %>" class="d-inline" method="POST">
+                                        <form action="cart/<%= p.id %>" class="d-inline" method="POST">
                                             <button type="submit" class="btn btn-outline-danger">Delete</button>
                                         </form>
                                     </div>
@@ -38,7 +39,11 @@
                             </div>
                         </div>
                         <% }); %>
+                            <form action="/orders" method="post">
+                                <button type="submit" class="btn btn-success">Order Now!</button>
+                            </form>
                 </div>
+
                 <% } else { %>
                     <h1 class="text-secondary">Cart is empty :(</h1>
                     <% } %>

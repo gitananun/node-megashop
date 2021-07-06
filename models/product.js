@@ -1,8 +1,8 @@
-const Sequelize = require('sequelize');
+const { Sequelize } = require("sequelize");
 
-const sequelize = require('../utils/database');
+const sequelize = require("../utils/database");
 
-const Product = sequelize.define('product', {
+const Product = sequelize.define("product", {
   title: {
     type: Sequelize.TEXT,
     allowNull: false,
