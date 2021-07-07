@@ -4,7 +4,7 @@
     <!-- Section-->
     <section class="py-5">
         <div class="container">
-            <form action="<%= editing ? `/admin/products/${product.id}` : 'product' %>" method="POST">
+            <form action="<%= editing ? `/admin/products/${product._id}` : 'product' %>" method="POST">
                 <% if(editing) { %>
                     <input type="hidden" name="_method" value="PUT">
                     <% } %>
