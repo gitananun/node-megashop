@@ -62,46 +62,25 @@ exports.postDeleteCart = (req, res, __) => {
     .catch((e) => console.log(e));
 };
 
-// exports.postOrders = (req, res, __) => {
-//   let fetchedProducts;
-//   let fetchedCart;
+exports.postOrders = (req, res, __) => {
+  req.user
+    .addOrder()
+    .then(() => res.redirect('/orders'))
+    .catch((e) => console.log(e));
+};
 
-//   req.user
-//     .getCart()
-//     .then((cart) => {
-//       fetchedCart = cart;
-//       return cart.getProducts();
-//     })
-//     .then((products) => {
-//       fetchedProducts = products;
-//       if (products.length === 0) res.redirect('..');
-//       return req.user.createOrder();
-//     })
-//     .then((order) =>
-//       order.addProducts(
-//         fetchedProducts.map((product) => {
-//           product.orderItem = { quantity: product.cartItem.quantity };
-//           return product;
-//         })
-//       )
-//     )
-//     .then(() => fetchedCart.setProducts(null))
-//     .then(() => res.redirect('/orders'))
-//     .catch((e) => console.log(e));
-// };
-
-// exports.getOrders = (req, res, _) => {
-//   req.user
-//     .getOrders({ include: ['products'] })
-//     .then((orders) =>
-//       res.render('shop/orders', {
-//         orders,
-//         pageTitle: 'Orders',
-//         path: '/orders',
-//       })
-//     )
-//     .catch((e) => console.log(e));
-// };
+exports.getOrders = (req, res, _) => {
+  req.user
+    .getOrders()
+    .then((orders) =>
+      res.render('shop/orders', {
+        orders,
+        pageTitle: 'Orders',
+        path: '/orders',
+      })
+    )
+    .catch((e) => console.log(e));
+};
 
 exports.getCheckout = (_, res, __) => {
   res.render('shop/checkout', {
