@@ -1,5 +1,5 @@
-const sequelize = require("../utils/database");
+const sequelize = require('../utils/database');
 
-const Order = sequelize.define("order", {});
+const Order = sequelize.define('order', {});
 
 module.exports = Order;

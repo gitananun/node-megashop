@@ -1,8 +1,8 @@
-const { Sequelize } = require("sequelize");
+const { Sequelize } = require('sequelize');
 
-const sequelize = require("../utils/database");
+const sequelize = require('../utils/database');
 
-const CartItem = sequelize.define("cartItem", {
+const CartItem = sequelize.define('cartItem', {
   quantity: Sequelize.INTEGER,
 });
 

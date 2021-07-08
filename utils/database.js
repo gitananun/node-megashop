@@ -1,11 +1,11 @@
-const { MongoClient } = require("mongodb");
+const { MongoClient } = require('mongodb');
 
 let _db;
 
 const mongoConnect = (callback) => {
   MongoClient.connect(process.env.MONGO_URI, { useUnifiedTopology: true })
     .then((client) => {
-      console.log("Connected!");
+      console.log('Connected!');
       _db = client.db();
       callback();
     })
@@ -14,7 +14,7 @@ const mongoConnect = (callback) => {
 
 const getDB = () => {
   if (_db) return _db;
-  throw "No Database Found!";
+  throw Error('No Database Found!');
 };
 
 exports.mongoConnect = mongoConnect;

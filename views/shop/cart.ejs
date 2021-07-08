@@ -17,7 +17,7 @@
                                 <div class="card-body p-4">
                                     <div class="text-center">
                                         <h6 class="fw-light">
-                                            Quantity: <%= p.cartItem.quantity %>
+                                            Quantity: <%= p.quantity %>
                                         </h6>
                                         <h5 class="fw-bolder">
                                             <%= p.title %>
@@ -28,10 +28,10 @@
 
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="/products/<%= p.id %>">
+                                        <a class="btn btn-outline-dark mt-auto" href="/products/<%= p._id %>">
                                             View
                                         </a>
-                                        <form action="cart/<%= p.id %>" class="d-inline" method="POST">
+                                        <form action="cart/<%= p._id %>" class="d-inline" method="POST">
                                             <button type="submit" class="btn btn-outline-danger">Delete</button>
                                         </form>
                                     </div>
