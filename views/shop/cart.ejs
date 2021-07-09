@@ -11,7 +11,7 @@
                             <div class="card h-100">
 
                                 <img class="card-img-top" style=" width: 100%; height: 15vw; object-fit: cover;"
-                                    src="<%= p.imageUrl ? p.imageUrl : 'https://www.dionid.com/app/uploads/2020/06/placeholder-1200x0-c-default.png' %>"
+                                    src="<%= p.productId.imageUrl ? p.productId.imageUrl : 'https://www.dionid.com/app/uploads/2020/06/placeholder-1200x0-c-default.png' %>"
                                     alt="..." />
 
                                 <div class="card-body p-4">
@@ -20,18 +20,18 @@
                                             Quantity: <%= p.quantity %>
                                         </h6>
                                         <h5 class="fw-bolder">
-                                            <%= p.title %>
+                                            <%= p.productId.title %>
                                         </h5>
-                                        <%= p.price ? "$" + p.price : '' %>
+                                        <%= p.productId.price ? "$" + p.productId.price : '' %>
                                     </div>
                                 </div>
 
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                                     <div class="text-center">
-                                        <a class="btn btn-outline-dark mt-auto" href="/products/<%= p._id %>">
+                                        <a class="btn btn-outline-dark mt-auto" href="/products/<%= p.productId._id %>">
                                             View
                                         </a>
-                                        <form action="cart/<%= p._id %>" class="d-inline" method="POST">
+                                        <form action="cart/<%= p.productId._id %>" class="d-inline" method="POST">
                                             <button type="submit" class="btn btn-outline-danger">Delete</button>
                                         </form>
                                     </div>

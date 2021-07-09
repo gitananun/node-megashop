@@ -1,7 +1,7 @@
 const Product = require('../models/product');
 
 exports.getProducts = (_, res, __) => {
-  Product.fetchAll()
+  Product.find()
     .then((products) => {
       res.render('shop/products', {
         products,
@@ -32,14 +32,16 @@ exports.getProduct = (req, res, __) => {
 
 exports.getCart = (req, res, __) => {
   req.user
-    .getCart()
-    .then((products) =>
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then((user) => {
+      const products = user.cart.items;
       res.render('shop/cart', {
         products,
         pageTitle: 'Cart',
         path: '/cart',
-      })
-    )
+      });
+    })
     .catch((e) => console.log(e));
 };
 
@@ -57,7 +59,7 @@ exports.postDeleteCart = (req, res, __) => {
   const productId = req.params.productId;
 
   req.user
-    .deleteItemFromCart(productId)
+    .removeFromCart(productId)
     .then(() => res.redirect('/cart'))
     .catch((e) => console.log(e));
 };

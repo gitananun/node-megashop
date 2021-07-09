@@ -1,8 +1,9 @@
 const useEnv = require('./utils/env');
-const { mongoConnect } = require('./utils/database');
+const mongoose = require('mongoose');
 
 const express = require('express');
 const path = require('path');
+
 const User = require('./models/user');
 
 const adminRouter = require('./routes/admin');
@@ -20,14 +21,9 @@ app.use(express.urlencoded({ extended: true })); // Allow parsing the request bo
 app.use(express.static(path.join(__dirname, 'public'))); // Allow access to public static files
 
 app.use((req, _, next) => {
-  User.findById('60e68e803a406ec87ace14ed')
+  User.findById('60e7deeb1d185204bf1ff19a')
     .then((user) => {
-      req.user = new User({
-        username: user.username,
-        email: user.email,
-        cart: user.cart,
-        id: user._id,
-      });
+      req.user = user;
       next();
     })
     .catch((e) => console.log(e));
@@ -37,6 +33,24 @@ app.use(shopRouter);
 app.use('/admin', adminRouter);
 app.use(systemRouter);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+mongoose
+  .connect(process.env.MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then((_) => {
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          username: 'tigran.muradyan',
+          email: 'tigran@muradyan.com',
+          cart: { items: [] },
+        });
+        user.save();
+      }
+    });
+    app.listen(3000);
+  })
+  .catch((e) => {
+    throw new Error(e);
+  });
