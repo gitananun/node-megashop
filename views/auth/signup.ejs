@@ -3,7 +3,7 @@
     <div class="main">
         <div class="mx-5 col-md-6 col-sm-12">
             <div class="login-form">
-                <form action="/login" method="POST">
+                <form action="/signup" method="POST">
                     <div class="form-group mb-3">
                         <label><i class="bi-person me-1"></i>Email</label>
                         <input type="text" class="form-control" name='email' placeholder="Email" required>
@@ -12,8 +12,13 @@
                         <label><i class="bi-key me-1"></i>Password</label>
                         <input type="password" class="form-control" name='password' placeholder="Password" required>
                     </div>
-                    <button type="submit" class="btn btn-black">Login</button>
-                    <a href="/signup"><button class="btn btn-secondary" type="button">Register</button></a>
+                    <div class="form-group mb-3">
+                        <label><i class="bi-key-fill me-1"></i>Confirm Password</label>
+                        <input type="password" class="form-control" name='confirmPassword'
+                            placeholder="Confirm Password" required>
+                    </div>
+                    <button type="submit" class="btn btn-black">Signup</button>
+                    <a href="/login"><button class="btn btn-secondary" type="button">Login</button></a>
                 </form>
             </div>
         </div>

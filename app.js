@@ -8,7 +8,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const path = require('path');
 
-const User = require('./models/user');
+const etcController = require('./controllers/etc');
 
 const adminRouter = require('./routes/admin');
 const shopRouter = require('./routes/shop');
@@ -35,14 +35,7 @@ app.use(
   })
 );
 
-app.use((req, _, next) => {
-  User.findById('60e7deeb1d185204bf1ff19a')
-    .then((user) => {
-      req.user = user;
-      next();
-    })
-    .catch((e) => console.log(e));
-});
+app.use(etcController.saveUserSession);
 
 app.use('/admin', adminRouter);
 app.use(shopRouter);
@@ -54,19 +47,7 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then((_) => {
-    User.findOne().then((user) => {
-      if (!user) {
-        const user = new User({
-          username: 'tigran.muradyan',
-          email: 'tigran@muradyan.com',
-          cart: { items: [] },
-        });
-        user.save();
-      }
-    });
-    app.listen(3000);
-  })
+  .then((_) => app.listen(3000))
   .catch((e) => {
     throw new Error(e);
   });

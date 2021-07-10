@@ -13,7 +13,6 @@
                     </a>
                 </li>
 
-                <!-- Start Admin Routes -->
                 <% if(authenticated) { %>
                     <li class="nav-item"><a class="nav-link <%= path == '/admin/add-product' ? 'active' : '' %>"
                             href="/admin/add-product">
@@ -26,31 +25,46 @@
                         </a>
                     </li>
                     <% } %>
-                        <!-- End Admin Routes -->
-
-                        <!-- Start Auth Routes -->
-                        <% if(!authenticated) { %>
-                            <li class="nav-item"><a class="nav-link <%= path == '/login' ? 'active' : '' %>"
-                                    href="/login">
-                                    Login
-                                </a>
-                            </li>
-                            <% } %>
-                                <!-- End Auth Routes -->
             </ul>
-            <a class="d-flex text-decoration-none" href="/cart">
-                <button class="btn btn-outline-dark <%= path == '/cart' ? 'btn-dark text-light' : '' %> " type="submit">
-                    <i class="bi-cart-fill me-1"></i>
-                    Cart
-                </button>
-            </a>
-            <a class="d-flex px-2 text-decoration-none" href="/orders">
-                <button class="btn btn-outline-primary <%= path == '/cart' ? 'btn-dark text-light' : '' %> "
-                    type="submit">
-                    <i class="bi-app-indicator me-1"></i>
-                    Orders
-                </button>
-            </a>
+            <% if(authenticated) { %>
+                <a class="d-flex text-decoration-none" href="/cart">
+                    <button class="btn btn-outline-primary <%= path == '/cart' ? 'btn-dark text-light' : '' %> "
+                        type="submit">
+                        <i class="bi-cart-fill me-1"></i>
+                        Cart
+                    </button>
+                </a>
+                <a class="d-flex  mx-2  text-decoration-none" href="/orders">
+                    <button class="btn btn-outline-success <%= path == '/cart' ? 'btn-dark text-light' : '' %> "
+                        type="submit">
+                        <i class="bi-app-indicator me-1"></i>
+                        Orders
+                    </button>
+                </a>
+
+                <form action="/logout" class="d-flex" method="post">
+                    <button class="btn btn-outline-dark <%= path == '/cart' ? 'btn-dark text-light' : '' %> "
+                        type="submit">
+                        <i class="bi-box-arrow-left me-1"></i>
+                        Logout
+                    </button>
+                </form>
+                <% }else { %>
+                    <a class="d-flex mx-2 text-decoration-none" href="/login">
+                        <button class="btn btn-outline-success">
+                            <i class="bi-door-open me-1"></i>
+                            Login
+                        </button>
+                    </a>
+
+                    <a class="d-flex text-decoration-none" href="/signup">
+                        <button class="btn btn-outline-secondary">
+                            <i class="bi-pen me-1"></i>
+                            Signup
+                        </button>
+                    </a>
+
+                    <% } %>
         </div>
     </div>
 </nav>

@@ -1,7 +1,9 @@
-<form action="/cart" method="post" class="d-inline">
-    <button class="btn btn-outline-dark flex-shrink-0" type="submit">
-        <i class="bi-cart-fill me-1"></i>
-        Add to cart
-    </button>
-    <input type="hidden" name="productId" value="<%= product._id %>">
-</form>
+<% if(authenticated){ %>
+    <form action="/cart" method="post" class="d-inline">
+        <button class="btn btn-outline-dark flex-shrink-0" type="submit">
+            <i class="bi-cart-fill me-1"></i>
+            Add to cart
+        </button>
+        <input type="hidden" name="productId" value="<%= product._id %>">
+    </form>
+    <% } %>
