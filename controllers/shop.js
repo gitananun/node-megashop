@@ -1,13 +1,14 @@
 const Product = require('../models/product');
 const Order = require('../models/order');
 
-exports.getProducts = (_, res, __) => {
+exports.getProducts = (req, res, __) => {
   Product.find()
     .then((products) => {
       res.render('shop/products', {
         products,
         pageTitle: 'MegaShop',
         path: '/',
+        authenticated: req.session.authenticated,
       });
     })
     .catch((err) => console.log(err));
@@ -20,6 +21,7 @@ exports.getProduct = (req, res, __) => {
         product,
         pageTitle: product.title,
         path: '/',
+        authenticated: req.session.authenticated,
       });
     })
     .catch((err) => {
@@ -41,6 +43,7 @@ exports.getCart = (req, res, __) => {
         products,
         pageTitle: 'Cart',
         path: '/cart',
+        authenticated: req.session.authenticated,
       });
     })
     .catch((e) => console.log(e));
@@ -96,14 +99,16 @@ exports.getOrders = (req, res, _) => {
         orders,
         pageTitle: 'Orders',
         path: '/orders',
+        authenticated: req.session.authenticated,
       });
     })
     .catch((e) => console.log(e));
 };
 
-exports.getCheckout = (_, res, __) => {
+exports.getCheckout = (req, res, __) => {
   res.render('shop/checkout', {
     pageTitle: 'Checkout',
     path: '/checkout',
+    authenticated: req.session.authenticated,
   });
 };

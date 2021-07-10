@@ -1,10 +1,11 @@
 const Product = require('../models/product');
 
-exports.getAddProduct = (_, res, __) => {
+exports.getAddProduct = (req, res, __) => {
   res.render('admin/edit-product', {
     path: '/admin/add-product',
     pageTitle: 'Add Product',
     editing: false,
+    authenticated: req.session.authenticated,
   });
 };
 
@@ -23,7 +24,7 @@ exports.postAddProduct = (req, res, _) => {
     .catch((e) => console.log(e));
 };
 
-exports.getProducts = (_, res, __) => {
+exports.getProducts = (req, res, __) => {
   Product.find()
     .populate('userId', 'username email')
     .then((products) => {
@@ -31,6 +32,7 @@ exports.getProducts = (_, res, __) => {
         products,
         pageTitle: 'Admin Products',
         path: '/admin/products',
+        authenticated: req.session.authenticated,
       });
     })
     .catch((err) => console.log(err));
@@ -49,6 +51,7 @@ exports.getEditProduct = (req, res, _) => {
         pageTitle: 'Edit Product',
         editing: editMode,
         product,
+        authenticated: req.session.authenticated,
       });
     })
     .catch((e) => console.log(e));
