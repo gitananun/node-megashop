@@ -4,7 +4,6 @@ exports.get404 = (req, res, __) => {
   res.status(404).render('404', {
     path: '/404',
     pageTitle: '404 Not found',
-    authenticated: req.session.authenticated,
   });
 };
 
@@ -16,4 +15,11 @@ exports.saveUserSession = (req, res, next) => {
       next();
     })
     .catch((e) => console.log(e));
+};
+
+exports.prepareResponseLocals = (req, res, next) => {
+  res.locals.authenticated = req.session.authenticated;
+  res.locals.csrfToken = req.csrfToken();
+  res.locals.error = req.flash('error')[0];
+  next();
 };

@@ -6,7 +6,9 @@ useEnv();
 const express = require('express');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
 const path = require('path');
+const flash = require('connect-flash');
 
 const etcController = require('./controllers/etc');
 
@@ -20,6 +22,7 @@ const store = new MongoDBStore({
   uri: process.env.MONGO_URI,
   collection: 'auth-sessions',
 });
+const csrfProtection = csrf();
 
 app.set('view engine', 'ejs');
 app.set('views', 'views'); // where to find templates
@@ -34,8 +37,10 @@ app.use(
     store: store,
   })
 );
-
+app.use(flash());
+app.use(csrfProtection);
 app.use(etcController.saveUserSession);
+app.use(etcController.prepareResponseLocals);
 
 app.use('/admin', adminRouter);
 app.use(shopRouter);

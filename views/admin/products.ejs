@@ -31,6 +31,8 @@
                                         </a>
                                         <form class='d-inline' action="products/<%= product._id %>/delete"
                                             method="POST">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                                             <input type="hidden" name="_method" value="DELETE">
                                             <button class="btn btn-outline-danger mt-auto" type="submit">Delete</button>
                                         </form>

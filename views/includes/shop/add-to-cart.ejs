@@ -1,5 +1,7 @@
 <% if(authenticated){ %>
     <form action="/cart" method="post" class="d-inline">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
         <button class="btn btn-outline-dark flex-shrink-0" type="submit">
             <i class="bi-cart-fill me-1"></i>
             Add to cart

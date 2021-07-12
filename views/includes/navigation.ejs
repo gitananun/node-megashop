@@ -43,6 +43,8 @@
                 </a>
 
                 <form action="/logout" class="d-flex" method="post">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
                     <button class="btn btn-outline-dark <%= path == '/cart' ? 'btn-dark text-light' : '' %> "
                         type="submit">
                         <i class="bi-box-arrow-left me-1"></i>

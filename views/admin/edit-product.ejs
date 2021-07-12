@@ -5,6 +5,7 @@
     <section class="py-5">
         <div class="container">
             <form action="<%= editing ? `/admin/products/${product._id}` : 'product' %>" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <% if(editing) { %>
                     <input type="hidden" name="_method" value="PUT">
                     <% } %>

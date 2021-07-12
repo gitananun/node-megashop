@@ -14,6 +14,7 @@ exports.postLogin = (req, res, __) => {
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
+        req.flash('error', 'Invalid credentials!');
         return res.redirect('/login');
       }
 
@@ -28,6 +29,7 @@ exports.postLogin = (req, res, __) => {
               res.redirect('/');
             });
           }
+          req.flash('error', 'Invalid credentials!');
           res.redirect('/login');
         })
         .catch((err) => {
@@ -53,7 +55,8 @@ exports.postSignup = (req, res, __) => {
   User.findOne({ email: email })
     .then((user) => {
       if (user) {
-        return res.redirect('..');
+        req.flash('error', 'User already exists!');
+        return res.redirect('/signup');
       }
 
       return bcrypt

@@ -12,7 +12,7 @@ const orderSchema = new Schema({
   user: {
     username: {
       type: String,
-      required: true,
+      required: false,
     },
     userId: {
       ref: 'User',
