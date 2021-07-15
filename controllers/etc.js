@@ -21,5 +21,6 @@ exports.prepareResponseLocals = (req, res, next) => {
   res.locals.authenticated = req.session.authenticated;
   res.locals.csrfToken = req.csrfToken();
   res.locals.error = req.flash('error')[0];
+  res.locals.success = req.flash('success')[0];
   next();
 };

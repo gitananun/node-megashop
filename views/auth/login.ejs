@@ -9,21 +9,30 @@
                         <%= error %>
                     </div>
                     <% } %>
-                        <form action="/login" method="POST">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <% if(success) { %>
+                            <div class="alert alert-success" role="alert">
+                                <%= success %>
+                            </div>
+                            <% } %>
+                                <form action="/login" method="POST">
+                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
-                            <div class="form-group mb-3">
-                                <label><i class="bi-person me-1"></i>Email</label>
-                                <input type="email" class="form-control" name='email' placeholder="Email" required>
-                            </div>
-                            <div class="form-group mb-3">
-                                <label><i class="bi-key me-1"></i>Password</label>
-                                <input type="password" class="form-control" name='password' placeholder="Password"
-                                    required>
-                            </div>
-                            <button type="submit" class="btn btn-black">Login</button>
-                            <a href="/signup"><button class="btn btn-secondary" type="button">Register</button></a>
-                        </form>
+                                    <div class="form-group mb-3">
+                                        <label><i class="bi-person me-1"></i>Email</label>
+                                        <input type="email" class="form-control" name='email' placeholder="Email"
+                                            required>
+                                    </div>
+                                    <div class="form-group mb-3">
+                                        <label><i class="bi-key me-1"></i>Password</label>
+                                        <input type="password" class="form-control" name='password'
+                                            placeholder="Password" required>
+                                    </div>
+                                    <button type="submit" class="btn btn-black">Login</button>
+                                    <a href="/signup"><button class="btn btn-outline-secondary"
+                                            type="button">Register</button></a>
+                                    <a href="/reset"><button class="btn btn-outline-primary" type="button">Reset
+                                            Password</button></a>
+                                </form>
             </div>
         </div>
     </div>
