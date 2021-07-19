@@ -46,6 +46,7 @@ app.use('/admin', adminRouter);
 app.use(shopRouter);
 app.use(authRouter);
 app.use(systemRouter);
+app.use((_, req, res, next) => res.redirect('/500'));
 
 mongoose
   .connect(process.env.MONGO_URI, {

@@ -7,14 +7,24 @@ exports.get404 = (req, res, __) => {
   });
 };
 
+exports.get500 = (req, res, __) => {
+  res.status(500).render('500', {
+    path: '/500',
+    pageTitle: '500 Internal Error',
+  });
+};
+
 exports.saveUserSession = (req, res, next) => {
   if (!req.session.user) return next();
   User.findById(req.session.user._id)
     .then((user) => {
+      if (!user) return next();
       req.user = user;
       next();
     })
-    .catch((e) => console.log(e));
+    .catch((e) => {
+      throw new Error(e);
+    });
 };
 
 exports.prepareResponseLocals = (req, res, next) => {

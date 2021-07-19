@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
 const { validationResult } = require('express-validator');
+const errorHandler = require('../utils/error');
 
 const User = require('../models/user');
 
@@ -30,7 +31,7 @@ exports.getLogin = (req, res, __) => {
   });
 };
 
-exports.postLogin = (req, res, __) => {
+exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -49,20 +50,20 @@ exports.postLogin = (req, res, __) => {
           if (doMatch) {
             req.session.authenticated = true;
             req.session.user = user;
-            return req.session.save((err) => {
-              if (err) console.log(err);
+            return req.session.save((e) => {
+              if (e) errorHandler(e, next);
               res.redirect('/');
             });
           }
           req.flash('error', 'Invalid credentials!');
           res.redirect('/login');
         })
-        .catch((err) => {
-          console.log(err);
+        .catch((e) => {
+          errorHandler(e, next);
           return res.redirect('/login');
         });
     })
-    .catch((e) => console.log(e));
+    .catch((e) => errorHandler(e, next));
 };
 
 exports.getSignup = (_, res, __) => {
@@ -72,7 +73,7 @@ exports.getSignup = (_, res, __) => {
   });
 };
 
-exports.postSignup = (req, res, __) => {
+exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
@@ -104,14 +105,14 @@ exports.postSignup = (req, res, __) => {
             html: '<h1>Megashop: You successfully signed up!</h1>',
           });
         })
-        .catch((e) => console.log(e));
+        .catch((e) => errorHandler(e, next));
     })
-    .catch((err) => console.log(err));
+    .catch((e) => errorHandler(e, next));
 };
 
-exports.postLogout = (req, res, _) => {
-  req.session.destroy((err) => {
-    if (err) console.log(err);
+exports.postLogout = (req, res, next) => {
+  req.session.destroy((e) => {
+    if (e) errorHandler(e, next);
     res.redirect('/');
   });
 };
@@ -123,10 +124,10 @@ exports.getReset = (req, res, _) => {
   });
 };
 
-exports.postReset = (req, res, _) => {
-  crypto.randomBytes(32, (err, buffer) => {
-    if (err) {
-      console.log(err);
+exports.postReset = (req, res, next) => {
+  crypto.randomBytes(32, (e, buffer) => {
+    if (e) {
+      errorHandler(e, next);
       req.flash('error', 'Something went wrong!');
       return res.redirect('/reset');
     }
@@ -154,10 +155,10 @@ exports.postReset = (req, res, _) => {
               <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password</p>
             `,
             })
-            .catch((err) => console.log(err));
+            .catch((e) => errorHandler(e, next));
         });
       })
-      .catch((err) => console.log(err));
+      .catch((e) => errorHandler(e, next));
   });
 };
 
@@ -180,10 +181,10 @@ exports.getNewPassword = (req, res, next) => {
         passwordToken: token,
       });
     })
-    .catch((err) => console.log(err));
+    .catch((e) => errorHandler(e, next));
 };
 
-exports.postNewPasssword = (req, res, _) => {
+exports.postNewPasssword = (req, res, next) => {
   const userId = req.body.userId;
   const passwordToken = req.body.passwordToken;
   const password = req.body.password;
@@ -218,5 +219,5 @@ exports.postNewPasssword = (req, res, _) => {
       req.flash('success', 'Password changed successfully!');
       res.redirect('/login');
     })
-    .catch((err) => console.log(err));
+    .catch((e) => errorHandler(e, next));
 };

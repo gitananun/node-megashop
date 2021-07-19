@@ -1,5 +1,6 @@
 const Product = require('../models/product');
 const { validationResult } = require('express-validator');
+const errorHandler = require('../utils/error');
 
 const validateRequest = (req, res) => {
   const errors = validationResult(req);
@@ -18,7 +19,7 @@ exports.getAddProduct = (req, res, __) => {
   });
 };
 
-exports.postAddProduct = (req, res, _) => {
+exports.postAddProduct = (req, res, next) => {
   if (!validateRequest(req, res)) return res.status(422).redirect('back');
 
   const product = new Product({
@@ -32,10 +33,10 @@ exports.postAddProduct = (req, res, _) => {
   product
     .save()
     .then(() => res.redirect('..'))
-    .catch((e) => console.log(e));
+    .catch((e) => errorHandler(e, next));
 };
 
-exports.getProducts = (req, res, __) => {
+exports.getProducts = (req, res, next) => {
   Product.find({ userId: req.user._id })
     .populate('userId', 'username email')
     .then((products) => {
@@ -45,10 +46,10 @@ exports.getProducts = (req, res, __) => {
         path: '/admin/products',
       });
     })
-    .catch((err) => console.log(err));
+    .catch((e) => errorHandler(e, next));
 };
 
-exports.getEditProduct = (req, res, _) => {
+exports.getEditProduct = (req, res, next) => {
   const urlPaths = req.url.split('/');
   const editMode = urlPaths[urlPaths.length - 1] === 'edit';
 
@@ -63,10 +64,10 @@ exports.getEditProduct = (req, res, _) => {
         product,
       });
     })
-    .catch((e) => console.log(e));
+    .catch((e) => errorHandler(e, next));
 };
 
-exports.putEditProduct = (req, res, _) => {
+exports.putEditProduct = (req, res, next) => {
   if (!validateRequest(req, res)) return res.status(422).redirect('back');
 
   Product.findById(req.params.productId)
@@ -81,11 +82,11 @@ exports.putEditProduct = (req, res, _) => {
 
       return product.save().then(() => res.redirect('/admin/products'));
     })
-    .catch((e) => console.log(e));
+    .catch((e) => errorHandler(e, next));
 };
 
-exports.deleteProduct = (req, res, _) => {
+exports.deleteProduct = (req, res, next) => {
   Product.deleteOne({ _id: req.params.productId, userId: req.user._id })
     .then(() => res.redirect('/admin/products'))
-    .catch((e) => console.log(e));
+    .catch((e) => errorHandler(e, next));
 };
