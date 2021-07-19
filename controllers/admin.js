@@ -1,4 +1,14 @@
 const Product = require('../models/product');
+const { validationResult } = require('express-validator');
+
+const validateRequest = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash('error', errors.array()[0].msg);
+    return false;
+  }
+  return true;
+};
 
 exports.getAddProduct = (req, res, __) => {
   res.render('admin/edit-product', {
@@ -9,6 +19,8 @@ exports.getAddProduct = (req, res, __) => {
 };
 
 exports.postAddProduct = (req, res, _) => {
+  if (!validateRequest(req, res)) return res.status(422).redirect('back');
+
   const product = new Product({
     title: req.body.title,
     price: req.body.price,
@@ -55,6 +67,8 @@ exports.getEditProduct = (req, res, _) => {
 };
 
 exports.putEditProduct = (req, res, _) => {
+  if (!validateRequest(req, res)) return res.status(422).redirect('back');
+
   Product.findById(req.params.productId)
     .then((product) => {
       if (product.userId.toString() !== req.user._id.toString()) {

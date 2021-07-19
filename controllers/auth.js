@@ -2,6 +2,7 @@ const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
+const { validationResult } = require('express-validator');
 
 const User = require('../models/user');
 
@@ -13,6 +14,15 @@ const transporter = nodemailer.createTransport(
   })
 );
 
+const validateRequest = (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    req.flash('error', errors.array()[0].msg);
+    return false;
+  }
+  return true;
+};
+
 exports.getLogin = (req, res, __) => {
   res.render('auth/login', {
     pageTitle: 'Login',
@@ -23,6 +33,9 @@ exports.getLogin = (req, res, __) => {
 exports.postLogin = (req, res, __) => {
   const email = req.body.email;
   const password = req.body.password;
+
+  if (!validateRequest(req, res)) return res.status(422).redirect('back');
+
   User.findOne({ email: email })
     .then((user) => {
       if (!user) {
@@ -62,12 +75,8 @@ exports.getSignup = (_, res, __) => {
 exports.postSignup = (req, res, __) => {
   const email = req.body.email;
   const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
 
-  if (password !== confirmPassword) {
-    req.flash('error', "Confirm password doesn't match to password");
-    return res.redirect('back');
-  }
+  if (!validateRequest(req, res)) return res.status(422).redirect('back');
 
   User.findOne({ email: email })
     .then((user) => {
